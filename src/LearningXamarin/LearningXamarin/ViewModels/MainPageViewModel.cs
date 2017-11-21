@@ -11,6 +11,7 @@ namespace LearningXamarin.ViewModels
     public class MainPageViewModel : ViewModelBase
     {
         public MainPageViewModel(INavigationService navigationService) 
+        public MainPageViewModel(INavigationService navigationService, Model model) 
             : base (navigationService)
         {
             Title = "Main Page";
