@@ -1,4 +1,5 @@
-﻿using LearningXamarin.ViewModels;
+﻿using LearningXamarin.Models;
+using LearningXamarin.ViewModels;
 using LearningXamarin.Views;
 using Microsoft.Practices.Unity;
 using Prism.Unity;
@@ -30,6 +31,8 @@ namespace LearningXamarin
         {
             Container.RegisterTypeForNavigation<NavigationPage>();
             Container.RegisterTypeForNavigation<MainPage>();
+
+            Container.RegisterType<IHogeInterface, HogeImpl>();
         }
     }
 }
