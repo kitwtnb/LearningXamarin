@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 
 namespace LearningXamarin.ViewModels
 {
@@ -18,11 +19,22 @@ namespace LearningXamarin.ViewModels
             set { SetProperty(ref _text, value); }
         }
 
+        private ICommand _searchCommand;
+        public ICommand SearchCommand
+        {
+            get { return _searchCommand ?? new DelegateCommand(SearchExecute); }
+        }
+
         public MainPageViewModel(INavigationService navigationService, Model model) 
             : base (navigationService)
         {
             Title = "Main Page";
             Text = model.Text;
+        }
+
+        private void SearchExecute()
+        {
+            Text = SearchText;
         }
     }
 }
