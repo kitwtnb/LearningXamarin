@@ -12,6 +12,13 @@ namespace LearningXamarin.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private string _searchText;
+        public string SearchText
+        {
+            get { return _searchText; }
+            set { SetProperty(ref _searchText, value); }
+        }
+
         private string _text;
         public string Text
         {

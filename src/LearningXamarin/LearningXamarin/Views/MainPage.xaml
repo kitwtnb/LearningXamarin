@@ -6,7 +6,8 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+    <StackLayout>
+        <SearchBar Placeholder="search" Text="{Binding SearchText}" SearchCommand="{Binding SearchCommand}" />
         <Label Text="{Binding Text}" />
     </StackLayout>
 
