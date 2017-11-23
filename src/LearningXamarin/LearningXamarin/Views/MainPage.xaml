@@ -8,7 +8,13 @@
 
     <StackLayout>
         <SearchBar Placeholder="search" Text="{Binding SearchText}" SearchCommand="{Binding SearchCommand}" />
-        <Label Text="{Binding Text}" />
+        <ListView ItemsSource="{Binding Contents}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Title}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 
 </ContentPage>
