@@ -32,11 +32,10 @@ namespace LearningXamarin.ViewModels
             get { return _searchCommand ?? new DelegateCommand(SearchExecute); }
         }
 
-        public MainPageViewModel(INavigationService navigationService, Model model) 
+        public MainPageViewModel(INavigationService navigationService, QiitaModel model) 
             : base (navigationService)
         {
             Title = "Main Page";
-            Text = model.Text;
         }
 
         private void SearchExecute()
