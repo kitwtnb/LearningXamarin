@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using System.Threading;
+using System.Reactive.Linq;
+using System.Reactive.Concurrency;
+using System.Collections.ObjectModel;
 
 namespace LearningXamarin.ViewModels
 {
@@ -19,28 +23,36 @@ namespace LearningXamarin.ViewModels
             set { SetProperty(ref _searchText, value); }
         }
 
-        private string _text;
-        public string Text
-        {
-            get { return _text; }
-            set { SetProperty(ref _text, value); }
-        }
+        public ObservableCollection<QiitaContent> Contents { get; } = new ObservableCollection<QiitaContent>();
 
+        private bool canExecuteSearch = true;
         private ICommand _searchCommand;
         public ICommand SearchCommand
         {
-            get { return _searchCommand ?? new DelegateCommand(SearchExecute); }
+            get { return _searchCommand ?? new DelegateCommand(SearchExecute, CanExecuteSearch); }
         }
+
+        private QiitaModel model;
 
         public MainPageViewModel(INavigationService navigationService, QiitaModel model) 
             : base (navigationService)
         {
             Title = "Main Page";
+            this.model = model;
         }
 
         private void SearchExecute()
         {
-            Text = SearchText;
+            Contents.Clear();
+            model.FetchBy(SearchText)
+                 .SubscribeOn(DefaultScheduler.Instance)
+                 .ObserveOn(SynchronizationContext.Current)
+                 .Subscribe(content => Contents.Add(content));
+        }
+
+        private bool CanExecuteSearch()
+        {
+            return true;
         }
     }
 }
