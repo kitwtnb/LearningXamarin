@@ -29,7 +29,7 @@ namespace LearningXamarin.ViewModels
         private ICommand _searchCommand;
         public ICommand SearchCommand
         {
-            get { return _searchCommand ?? new DelegateCommand(SearchExecute, CanExecuteSearch); }
+            get { return _searchCommand ?? (_searchCommand = new DelegateCommand(SearchExecute, () => canExecuteSearch)); }
         }
 
         private QiitaModel model;
