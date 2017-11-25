@@ -43,10 +43,12 @@ namespace LearningXamarin.ViewModels
 
         private void SearchExecute()
         {
+            canExecuteSearch = false;
             Contents.Clear();
             model.FetchBy(SearchText)
                  .SubscribeOn(DefaultScheduler.Instance)
                  .ObserveOn(SynchronizationContext.Current)
+                 .Finally(() => canExecuteSearch = true)
                  .Subscribe(content => Contents.Add(content));
         }
 
