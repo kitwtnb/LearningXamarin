@@ -32,6 +32,12 @@ namespace LearningXamarin.ViewModels
             get { return _searchCommand ?? (_searchCommand = new DelegateCommand(SearchExecute, () => canExecuteSearch)); }
         }
 
+        private ICommand _showDetailCommand;
+        public ICommand ShowDetailCommand
+        {
+            get { return _showDetailCommand ?? (_showDetailCommand = new DelegateCommand<QiitaContent>(ShowDetailExecute)); }
+        }
+
         private QiitaModel model;
 
         public MainPageViewModel(INavigationService navigationService, QiitaModel model) 
@@ -52,9 +58,8 @@ namespace LearningXamarin.ViewModels
                  .Subscribe(content => Contents.Add(content));
         }
 
-        private bool CanExecuteSearch()
+        private void ShowDetailExecute(QiitaContent content)
         {
-            return true;
         }
     }
 }
