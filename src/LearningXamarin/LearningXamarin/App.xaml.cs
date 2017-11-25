@@ -31,6 +31,7 @@ namespace LearningXamarin
         {
             Container.RegisterTypeForNavigation<NavigationPage>();
             Container.RegisterTypeForNavigation<MainPage>();
+            Container.RegisterTypeForNavigation<DetailPage>();
 
             Container.RegisterType<IHogeInterface, HogeImpl>();
         }
