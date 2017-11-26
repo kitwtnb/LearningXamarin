@@ -7,9 +7,10 @@ using System.Linq;
 
 namespace LearningXamarin.ViewModels
 {
-	public class DetailPageViewModel : BindableBase
+	public class DetailPageViewModel : ViewModelBase
 	{
-        public DetailPageViewModel()
+        public DetailPageViewModel(INavigationService navigationService)
+            : base(navigationService)
         {
 
         }
