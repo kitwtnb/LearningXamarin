@@ -11,17 +11,13 @@ using System.Threading;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Collections.ObjectModel;
+using Reactive.Bindings;
 
 namespace LearningXamarin.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private string _searchText;
-        public string SearchText
-        {
-            get { return _searchText; }
-            set { SetProperty(ref _searchText, value); }
-        }
+        public ReactiveProperty<string> SearchText { get; } = new ReactiveProperty<string>();
 
         private bool _isRefreshing;
         public bool IsRefreshing
@@ -59,7 +55,7 @@ namespace LearningXamarin.ViewModels
             IsRefreshing = true;
             canExecuteSearch = false;
             Contents.Clear();
-            model.FetchBy(SearchText)
+            model.FetchBy(SearchText.Value)
                  .SubscribeOn(DefaultScheduler.Instance)
                  .ObserveOn(SynchronizationContext.Current)
                  .Finally(() => {
