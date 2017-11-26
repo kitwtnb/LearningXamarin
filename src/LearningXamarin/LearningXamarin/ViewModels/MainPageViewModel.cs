@@ -22,17 +22,12 @@ namespace LearningXamarin.ViewModels
 
         public ObservableCollection<QiitaContent> Contents { get; } = new ObservableCollection<QiitaContent>();
 
-        private ICommand _searchCommand;
-        public ICommand SearchCommand
-        {
-            get { return _searchCommand ?? (_searchCommand = new DelegateCommand(SearchExecute, () => IsRefreshing.Value == false)); }
-        }
-
         private ICommand _showDetailCommand;
         public ICommand ShowDetailCommand
         {
             get { return _showDetailCommand ?? (_showDetailCommand = new DelegateCommand<QiitaContent>(ShowDetailExecute)); }
         }
+        public ReactiveCommand SearchCommand { get; }
 
         private QiitaModel model;
 
@@ -41,6 +36,9 @@ namespace LearningXamarin.ViewModels
         {
             Title = "Main Page";
             this.model = model;
+
+            SearchCommand = IsRefreshing.Select(b => b == false).ToReactiveCommand();
+            SearchCommand.Subscribe(SearchExecute);
         }
 
         private void SearchExecute()
