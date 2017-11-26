@@ -9,6 +9,13 @@ namespace LearningXamarin.ViewModels
 {
 	public class DetailPageViewModel : ViewModelBase
 	{
+        private string _url;
+        public string URL
+        {
+            get { return _url; }
+            set { SetProperty(ref _url, value); }
+        }
+
         public DetailPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
