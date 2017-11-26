@@ -60,6 +60,8 @@ namespace LearningXamarin.ViewModels
 
         private void ShowDetailExecute(QiitaContent content)
         {
+            var parameter = DetailPageViewModel.CreateParameter(content.Title, content.URL);
+            NavigationService.NavigateAsync(DetailPageViewModel.NavigateKey, parameter);
         }
     }
 }
