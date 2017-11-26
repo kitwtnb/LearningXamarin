@@ -23,6 +23,13 @@ namespace LearningXamarin.ViewModels
             set { SetProperty(ref _searchText, value); }
         }
 
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set { SetProperty(ref _isRefreshing, value); }
+        }
+
         public ObservableCollection<QiitaContent> Contents { get; } = new ObservableCollection<QiitaContent>();
 
         private bool canExecuteSearch = true;
@@ -49,12 +56,16 @@ namespace LearningXamarin.ViewModels
 
         private void SearchExecute()
         {
+            IsRefreshing = true;
             canExecuteSearch = false;
             Contents.Clear();
             model.FetchBy(SearchText)
                  .SubscribeOn(DefaultScheduler.Instance)
                  .ObserveOn(SynchronizationContext.Current)
-                 .Finally(() => canExecuteSearch = true)
+                 .Finally(() => {
+                     IsRefreshing = false;
+                     canExecuteSearch = true;
+                 })
                  .Subscribe(content => Contents.Add(content));
         }
 
