@@ -9,7 +9,7 @@
 
     <StackLayout>
         <SearchBar Placeholder="search" Text="{Binding SearchText}" SearchCommand="{Binding SearchCommand}" />
-        <ListView ItemsSource="{Binding Contents}">
+        <ListView ItemsSource="{Binding Contents}" IsRefreshing="{Binding IsRefreshing}">
             <ListView.Behaviors>
                 <behaviors:EventToCommandBehavior EventName="ItemTapped" EventArgsParameterPath="Item" Command="{Binding ShowDetailCommand}" />
             </ListView.Behaviors>
