@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,7 @@ namespace LearningXamarin.ViewModels
         private static readonly string ParamKeyTitle = "title";
         private static readonly string ParamKeyUrl = "url";
 
-        private string _url;
-        public string URL
-        {
-            get { return _url; }
-            set { SetProperty(ref _url, value); }
-        }
+        public ReactiveProperty<string> Url { get; } = new ReactiveProperty<string>();
 
         public static NavigationParameters CreateParameter(string title, string url)
         {
@@ -38,7 +34,7 @@ namespace LearningXamarin.ViewModels
         public override void OnNavigatedTo(NavigationParameters parameters)
         {
             Title = (string)parameters[ParamKeyTitle];
-            URL = (string) parameters[ParamKeyUrl];
+            Url.Value = (string) parameters[ParamKeyUrl];
         }
     }
 }
