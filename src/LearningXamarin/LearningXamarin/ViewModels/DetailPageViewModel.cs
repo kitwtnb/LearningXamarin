@@ -9,6 +9,7 @@ namespace LearningXamarin.ViewModels
 {
 	public class DetailPageViewModel : ViewModelBase
 	{
+        public static readonly string NavigateKey = "DetailPage";
         private static readonly string ParamKeyTitle = "title";
         private static readonly string ParamKeyUrl = "url";
 
