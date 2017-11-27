@@ -8,8 +8,8 @@
              Title="{Binding Title}">
 
     <StackLayout>
-        <SearchBar Placeholder="search" Text="{Binding SearchText}" SearchCommand="{Binding SearchCommand}" />
-        <ListView ItemsSource="{Binding Contents}" IsRefreshing="{Binding IsRefreshing}">
+        <SearchBar Placeholder="search" Text="{Binding SearchText.Value}" SearchCommand="{Binding SearchCommand}" />
+        <ListView ItemsSource="{Binding Contents}" IsRefreshing="{Binding IsRefreshing.Value}">
             <ListView.Behaviors>
                 <behaviors:EventToCommandBehavior EventName="ItemTapped" EventArgsParameterPath="Item" Command="{Binding ShowDetailCommand}" />
             </ListView.Behaviors>
