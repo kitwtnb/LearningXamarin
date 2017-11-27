@@ -11,39 +11,19 @@ using System.Threading;
 using System.Reactive.Linq;
 using System.Reactive.Concurrency;
 using System.Collections.ObjectModel;
+using Reactive.Bindings;
 
 namespace LearningXamarin.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private string _searchText;
-        public string SearchText
-        {
-            get { return _searchText; }
-            set { SetProperty(ref _searchText, value); }
-        }
-
-        private bool _isRefreshing;
-        public bool IsRefreshing
-        {
-            get { return _isRefreshing; }
-            set { SetProperty(ref _isRefreshing, value); }
-        }
+        public ReactiveProperty<string> SearchText { get; } = new ReactiveProperty<string>();
+        public ReactiveProperty<bool> IsRefreshing { get; } = new ReactiveProperty<bool>();
 
         public ObservableCollection<QiitaContent> Contents { get; } = new ObservableCollection<QiitaContent>();
 
-        private bool canExecuteSearch = true;
-        private ICommand _searchCommand;
-        public ICommand SearchCommand
-        {
-            get { return _searchCommand ?? (_searchCommand = new DelegateCommand(SearchExecute, () => canExecuteSearch)); }
-        }
-
-        private ICommand _showDetailCommand;
-        public ICommand ShowDetailCommand
-        {
-            get { return _showDetailCommand ?? (_showDetailCommand = new DelegateCommand<QiitaContent>(ShowDetailExecute)); }
-        }
+        public ReactiveCommand SearchCommand { get; }
+        public ReactiveCommand<QiitaContent> ShowDetailCommand { get; }
 
         private QiitaModel model;
 
@@ -52,19 +32,23 @@ namespace LearningXamarin.ViewModels
         {
             Title = "Main Page";
             this.model = model;
+
+            SearchCommand = IsRefreshing.Select(b => b == false).ToReactiveCommand();
+            SearchCommand.Subscribe(SearchExecute);
+
+            ShowDetailCommand = new ReactiveCommand<QiitaContent>();
+            ShowDetailCommand.Subscribe(ShowDetailExecute);
         }
 
         private void SearchExecute()
         {
-            IsRefreshing = true;
-            canExecuteSearch = false;
+            IsRefreshing.Value = true;
             Contents.Clear();
-            model.FetchBy(SearchText)
+            model.FetchBy(SearchText.Value)
                  .SubscribeOn(DefaultScheduler.Instance)
                  .ObserveOn(SynchronizationContext.Current)
                  .Finally(() => {
-                     IsRefreshing = false;
-                     canExecuteSearch = true;
+                     IsRefreshing.Value = false;
                  })
                  .Subscribe(content => Contents.Add(content));
         }
